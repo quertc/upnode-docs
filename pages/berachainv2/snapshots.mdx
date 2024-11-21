@@ -1,0 +1,56 @@
+# Snapshots
+
+import { useEffect, useState } from 'react'
+
+export const SnapshotTable = () => {
+  const [snapshots, setSnapshots] = useState([])
+  const [error, setError] = useState(null)
+  
+  useEffect(() => {
+    fetch('http://bera-api.upnode.org/snapshots')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`)
+        }
+        return res.json()
+      })
+      .then(data => setSnapshots(data.snapshots))
+      .catch(error => {
+        console.error('Error fetching snapshots:', error)
+        setError('Failed to load snapshots')
+      })
+  }, [])
+
+  if (error) {
+    return <div className="error-message">{error}</div>
+  }
+
+  return (
+    <div className="snapshot-table">
+      <table>
+        <thead>
+          <tr>
+            <th>TIMESTAMP (UTC)</th>
+            <th>TYPE</th>
+            <th>DOWNLOAD</th>
+            <th>SHA256</th>
+          </tr>
+        </thead>
+        <tbody>
+          {snapshots.map(snapshot => (
+            <tr key={snapshot.fileName}>
+              <td>{new Date(snapshot.uploadTime).toLocaleString()}</td>
+              <td>{snapshot.type}</td>
+              <td><a href={`http://bera-api.upnode.org/snapshots/${snapshot.fileName}`}>{snapshot.fileName}</a></td>
+              <td>{snapshot.sha256}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+<SnapshotTable />
+
+We take snapshots every day.

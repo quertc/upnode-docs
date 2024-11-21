@@ -2,16 +2,33 @@ import React from 'react'
 import { DocsThemeConfig } from 'nextra-theme-docs'
 
 const config: DocsThemeConfig = {
-  logo: <span>My Project</span>,
+  logo: (
+    <span style={{ 
+      display: 'flex', 
+      alignItems: 'center', 
+      gap: '8px',
+      fontSize: '20px',
+      fontWeight: 'bold'
+    }}>
+      Upnode
+    </span>
+  ),
+  editLink: {
+    component: null,
+  },
+  feedback: {
+    content: null,
+  },
   project: {
-    link: 'https://github.com/shuding/nextra-docs-template',
+    link: 'https://github.com/upnodedev',
   },
-  chat: {
-    link: 'https://discord.com',
-  },
-  docsRepositoryBase: 'https://github.com/shuding/nextra-docs-template',
+  primaryHue: 222,
   footer: {
-    text: 'Nextra Docs Template',
+    text: (
+      <span>
+        © {new Date().getFullYear()} Upnode. All rights reserved.
+      </span>
+    )
   },
 }
 
